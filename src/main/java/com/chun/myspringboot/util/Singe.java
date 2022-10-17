@@ -17,7 +17,7 @@ computer.transferData(up);
 class Computer {
     public void transferData(USB usb) {
         usb.start();
-        System.out.println("正在传输数据");
+        System.out.println("正在传输数据test001");
         usb.stop();
 
     }
