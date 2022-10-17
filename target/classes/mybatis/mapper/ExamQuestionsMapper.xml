@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chun.myspringboot.mapper.ExamQuestionsMapper">
+
+        <resultMap id="seeQuestions" type="com.chun.myspringboot.pojo.Questions">
+            <id column="id" property="id" />
+            <result column="subject" property="subject" />
+            <result column="listenId" property="listenId" />
+            <result column="listenName" property="listenName" />
+            <result column="taotiid" property="taotiid" />
+            <result column="answer" property="answer" />
+            <result column="optiona" property="optiona" />
+            <result column="optionb" property="optionb" />
+            <result column="optionc" property="optionc" />
+            <result column="optiond" property="optiond" />
+        </resultMap>
+
+
+    <select id="findExamRadioQuestions" parameterType="int" resultType="java.util.HashMap">
+   select q.id,q.subject,
+        q.taotiid,
+        q.optiona,q.optionb,
+        q.optionc,q.optiond,
+         q.answer,l.listenName
+        from  listen l,questions q
+        where
+       q.taotiid=l.listenId
+       and
+       l.listenId=#{value}
+  </select>
+
+
+
+    <select id="findExamAnswerById" parameterType="String" resultMap="seeQuestions">
+        select
+         q.id,q.taotiid,
+        q.answer,
+        l.listenName
+       from
+       listen l,questions q
+         where
+         q.id=#{value}
+         and
+         l.listenId=q.taotiid
+    </select>
+
+
+    <!--查看所有试题信息-->
+    <select id="queryAllQuestions" resultType="Questions">
+        select * from studywords.questions
+    </select>
+    <!--根据ID查询一条试题-->
+    <select id="queryQuestionsById" resultType="Questions">
+        select * from studywords.questions where Id=#{Id}
+    </select>
+    <!--添加一条试题-->
+    <insert id="addQuestions" parameterType="Questions">
+        insert into studywords.questions(subject,taotiid,optiona,optionb,optionc,optiond,answer) values (#{subject},#{taotiid},#{optiona},#{optionb},#{optionc},#{optiond},#{answer});
+    </insert>
+    <!--删除一条试题-->
+    <delete id="deleteQuestions" parameterType="Integer">
+        delete from studywords.questions where Id=#{Id}
+    </delete>
+    <!--修改一条试题-->
+    <update id="updateQuestions" parameterType="Questions" >
+        update studywords.questions set subject=#{subject},taotiid=#{taotiid},optiona=#{optiona}, optionb=#{optionb}, optionc=#{optionc}, optiond=#{optiond}, answer=#{answer}
+        where Id=#{Id}
+    </update>
+
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chun.myspringboot.mapper.StuExamResultMapper">
+    <!-- 添加学生考试成绩记录 -->
+    <insert id="addStuExamResult" parameterType="com.chun.myspringboot.pojo.StuResult">
+		INSERT INTO studywords.stu_examresult
+			(
+			taotiid,
+			username,
+            radioscores,
+			createtime
+			)
+			VALUES
+			(
+			#{taotiid},
+			#{username},
+
+            #{radioscores},
+			#{createtime}
+			)
+	</insert>
+	<!-- 查找考试学生信息 -->
+	<select id="findExamStuByUsername"  parameterType="String"  resultType="com.chun.myspringboot.pojo.StuInformation" >
+      select
+     username
+     from stu_information
+     where
+     username =#{value}
+  </select>
+
+
+	<!-- 查找用户所有记录	-->
+	<select id="findExamByUsername" parameterType="String" resultType="java.util.HashMap">
+    select
+    l.content,r.radioscores,
+    l.listenName,
+   r.username,
+    r.createtime
+    from
+    stu_examresult r,listen l
+    where
+     username =#{value}
+     and
+     r.taotiid=l.listenId
+	</select>
+</mapper>
